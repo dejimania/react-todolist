@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
 import App from './App';
-// import Button from './Counter';
+
 
 test('renders learn react link', () => {
   const { getByText } = render(<App />);
