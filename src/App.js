@@ -13,12 +13,21 @@ class App extends Component {
       userName: "Idrees",
     };
   }
+
+  changeStateData = () => {
+    this.setState({
+      userName: this.state.userName === 'Idrees' ? 'Aliza' : 'Idrees',
+    });
+  }
   render () {
     return (
       <div className="App">
         <h4 className="bg-primary text-white text-center p-2">
-          { this.state.userName } Todo List
+          { this.state.userName }'s Todo List
         </h4>
+        <button className="btm btn-primary m-2" onClick={this.changeStateData}>
+          Change
+        </button>
         <Button></Button>
       </div>
     );
