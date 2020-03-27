@@ -36,6 +36,26 @@ class App extends Component {
     }
   }
 
+  toggleTodo = (todo) => {
+    return this.setState({
+      todoItems: this.state.todoItems.map(item => item.action === todo.action ?
+        { ...item, done: !item.done } : item )
+    });
+  }
+
+  todoTableRows = () => {
+    return this.state.todoItems.map(item => {
+       return <tr key={item.action}>
+        <td>{item.action}</td>
+        <td>
+          <input type="checkbox" checked={item.done}
+            onChange={ () => this.toggleTodo(item) }
+          />
+        </td>
+      </tr>;
+    });
+  }
+
   changeStateData = () => {
     this.setState({
       userName: this.state.userName === 'Idrees' ? 'Aliza' : 'Idrees',
@@ -46,7 +66,8 @@ class App extends Component {
       <div className="App">
         <h4 className="bg-primary text-white text-center p-2">
           { this.state.userName }'s Todo List
-          ({ this.state.todoItems.filter(t => !t.done).length} items to do)
+          ({ this.state.todoItems.filter(t => !t.done).length} items to do) | 
+          { this.state.todoItems.filter(t => t.done).length} item done
         </h4>
         {/* <button className="btm btn-primary m-2" onClick={this.changeStateData}>
           Change
@@ -62,7 +83,16 @@ class App extends Component {
             >Add</button>
           </div>
         </div>
-        <Button></Button>
+        <table className="table table-striped table-bordered">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Done</th>
+            </tr>
+          </thead>
+          <tbody>{ this.todoTableRows() }</tbody>
+        </table>
+        {/* <Button></Button> */}
       </div>
     );
   }
