@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 // import logo from './logo.svg';
 // import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
+import { TodoBanner } from './TodoBanner';
+import { TodoCreator } from './TodoCreator';
+import { TodoRow } from './TodoRow';
 
 import Button from './Counter';
 
@@ -17,7 +20,7 @@ class App extends Component {
         { action: "Do School Assignment", done: true },
         { action: "Call mum", done: false },
       ],
-      newItemText: "",
+      // newItemText: "",
     };
   }
 
@@ -25,17 +28,17 @@ class App extends Component {
     this.setState({ newItemText: evt.target.value });
   }
 
-  createNewTodo = () => {
-    if(!this.state.todoItems
-        .find(item => item.action === this.state.newItemText)) {
-        this.setState({
-          todoItems: [...this.state.todoItems,
-            { action: this.state.newItemText, done: false}],
-          newItemText: "",
-        });
+  createNewTodo = (task) => {
+    if(!this.state.todoItems.find(item => this.state.newItemText === task)){
+      this.setState({
+        todoItems: [ ...this.state.todoItems,
+          { action: task, done: false },
+        ],
+      });
     }
   }
 
+ 
   toggleTodo = (todo) => {
     return this.setState({
       todoItems: this.state.todoItems.map(item => item.action === todo.action ?
@@ -44,17 +47,11 @@ class App extends Component {
   }
 
   todoTableRows = () => {
-    return this.state.todoItems.map(item => {
-       return <tr key={item.action}>
-        <td>{item.action}</td>
-        <td>
-          <input type="checkbox" checked={item.done}
-            onChange={ () => this.toggleTodo(item) }
-          />
-        </td>
-      </tr>;
-    });
+    return this.state.todoItems.map(item => 
+      <TodoRow key={item.action} item={ item } callback={ this.toggleTodo} />);
   }
+
+
 
   changeStateData = () => {
     this.setState({
@@ -64,16 +61,11 @@ class App extends Component {
   render () {
     return (
       <div className="App">
-        <h4 className="bg-primary text-white text-center p-2">
-          { this.state.userName }'s Todo List
-          ({ this.state.todoItems.filter(t => !t.done).length} items to do) | 
-          { this.state.todoItems.filter(t => t.done).length} item done
-        </h4>
-        {/* <button className="btm btn-primary m-2" onClick={this.changeStateData}>
-          Change
-        </button> */}
+        <TodoBanner name={ this.state.userName } tasks={ this.state.todoItems } />
+        
         <div className="container-fluid">
-          <div className="my-1">
+          <TodoCreator callback={ this.createNewTodo } />
+          {/* <div className="my-1">
             <input className="form-control"
             value={ this.state.newItemText }
             onChange={ this.updateNewTextValue }
@@ -81,7 +73,7 @@ class App extends Component {
             <button className="btn btn-primary mt-1"
               onClick={ this.createNewTodo }
             >Add</button>
-          </div>
+          </div> */}
           <table className="table table-striped table-bordered">
           <thead>
             <tr>
