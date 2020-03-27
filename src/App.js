@@ -82,8 +82,7 @@ class App extends Component {
               onClick={ this.createNewTodo }
             >Add</button>
           </div>
-        </div>
-        <table className="table table-striped table-bordered">
+          <table className="table table-striped table-bordered">
           <thead>
             <tr>
               <th>Description</th>
@@ -92,6 +91,8 @@ class App extends Component {
           </thead>
           <tbody>{ this.todoTableRows() }</tbody>
         </table>
+        </div>
+        
         {/* <Button></Button> */}
       </div>
     );
